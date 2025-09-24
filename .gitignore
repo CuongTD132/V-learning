@@ -10,6 +10,7 @@ yarn-error.log*
 
 .vscode/*
 .env
+.idea
 # Playwright
 node_modules/
 /test-results/
