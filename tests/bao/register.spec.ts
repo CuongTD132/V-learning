@@ -8,9 +8,12 @@ test.describe("Register Tests", async () => {
     loginPage = new LoginPage(page);
     await loginPage.goto();
     });
-    test("Chuyển sang trang đăng ký", async ({ page }) => {
+        test("Chuyển sang trang đăng ký", async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
         await loginPage.clickRegister();
         await expect(page).toHaveURL(/.*register/);
+        await expect(page.locator("form")).toBeVisible();
 });
     test("TC-1 Đăng ký với đầy đủ thông tin hợp lệ ", async ({ page }) => {
         await loginPage.enterUsername("bao29 ");
