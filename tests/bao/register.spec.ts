@@ -8,20 +8,16 @@ test.describe("Register Tests", async () => {
     loginPage = new LoginPage(page);
     await loginPage.goto();
     });
-        test("Chuyển sang trang đăng ký", async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.goto();
-        await loginPage.clickRegister();
-        await expect(page).toHaveURL(/.*register/);
-        await expect(page.locator("form")).toBeVisible();
-});
     test("TC-1 Đăng ký với đầy đủ thông tin hợp lệ ", async ({ page }) => {
-        await loginPage.enterUsername("bao29 ");
-        await loginPage.enterfullname("Nguyễn Lý Bảo");
-        await loginPage.enterPassword("Bao290501");
-        await loginPage.enteremail("lybao29052001@gmail.com");
-        await loginPage.enterphone ("0585826722");
-        await loginPage.clickRegister();
+        await loginPage.enterSignUp();
+        await loginPage.editUsername("bao29");
+        await loginPage.editfullname("Nguyễn Lý Bảo");
+        await loginPage.editPassword("Bao290501");
+        await loginPage.editemail("lybao29052001@gmail.com");
+        await loginPage.editphone ("0585826722");
+        await loginPage.editparam("GP01");
+        await expect()("Đăng ký thành công");
+        
     })
 });
 

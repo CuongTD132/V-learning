@@ -2,7 +2,8 @@ import { expect, Page, Locator } from "@playwright/test"
 import { BASE_URL } from "../utils/utils";
 export class LoginPage {
     readonly page: Page;
-    readonly maNhom: Locator;
+    readonly btnSignUp: Locator;
+    readonly param: Locator;
     readonly phone: Locator;
     readonly username: Locator;
     readonly fullname: Locator;
@@ -12,7 +13,8 @@ export class LoginPage {
     readonly errorMessage: Locator;
     constructor(page: Page) {
         this.page = page;
-        this.maNhom = page.getByPlaceholder("Mã nhóm").nth(1);
+        this.btnSignUp = page.locator("#signUp");
+        this.param = page.getByPlaceholder("Mã nhóm").nth(1);
         this.phone = page.getByPlaceholder("Số điện thoại").nth(1);
         this.email = page.getByPlaceholder("Email").nth(1);
         this.username = page.getByPlaceholder("Tài khoản").nth(1);
@@ -25,28 +27,27 @@ export class LoginPage {
     async goto() {
         await this.page.goto(`${BASE_URL}/login`);
     }
-    async entermanhom(maNhom: string) {
+    async enterSignUp(){
+    await this.btnSignUp.click();
+    }
+    async editparam(param: string) {
 
     }
-    async enterphone(phone: string ){
+    async editphone(phone: string ){
 
     }
-    async enteremail(email: string) {
+    async editemail(email: string) {
 
     }
-    async enterfullname(fullName: string) {
+    async editfullname(fullName: string) {
 
     }
-
-    async enterUsername(user: string) {
+    
+    async editUsername(user: string) {
         await this.username.fill(user);
     }
 
-    async clickRegister() {
-      await this.page.click("Đăng ký");
-    }
-
-    async enterPassword(pass: string) {
+    async editPassword(pass: string) {
         await this.password.fill(pass);
     }
     async clickLogin() {
