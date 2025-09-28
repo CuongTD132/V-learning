@@ -35,14 +35,40 @@ test.describe("Kiểm thử 'cập nhật user'", () => {
         const expected: string = "Minh"
         await userInformationPage.editUsername(expected)
         const actual = await userInformationPage.username.inputValue()
-        await expect(actual).toBe(expected)
+        expect(actual).toBe(expected)
         //test fill không hiện thông báo lỗi
         const expectedError: string = ""
         const actualError = await userInformationPage.getErrorMessageUsername()
-        await expect(actualError).toBe(expectedError)
+        expect(actualError).toBe(expectedError)
     })
 
-    test("", async ({page}) => {
+    test("TC-06: Nhập field 'Họ và tên' ít hơn 2 ký tự", async () => {
+        await userInformationPage.editUsername("T")
+        const expectedError: string = "Vui lòng nhập tên nhiều hơn 2 ký tự"
+        const actualError = await userInformationPage.getErrorMessageUsername()
+        expect(actualError).toBe(expectedError)
+    })
 
+    test("TC-07: Nhập field 'Họ và tên' nhiều hơn 32 ký tự", async () => {
+        await userInformationPage.editUsername("ndmnmknjknkjnajkndjksandjknasxzcxzczxcxzczczx")
+        const actual = await userInformationPage.username.inputValue()
+        expect(actual.length).toBeLessThanOrEqual(32)
+    }) 
+
+    test("TC-08: Nhập field 'Họ và tên' với kí tự đặc biệt", async () => {
+        await userInformationPage.editUsername("@MInh")
+        await userInformationPage.username.blur()
+        const expextedError: string = "Chỉ nhập kí tự chữ"
+        const actualError = await userInformationPage.getErrorMessageUsername()
+        expect(actualError).toBe(expextedError)
+    })
+
+    test("TC-09: Nhập field 'Họ và tên' với kí tự số", async () => {
+        await userInformationPage.editUsername("123514")
+        await userInformationPage.username.blur()
+        const expectedError: string = "Chỉ nhập kí tự chữ"
+        const actualError = await userInformationPage.getErrorMessageUsername()
+        console.log(actualError)
+        await expect(actualError).toBe(expectedError)    
     })
 })

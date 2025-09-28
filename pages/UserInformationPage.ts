@@ -10,10 +10,6 @@ export class UserInformationPage {
     readonly phoneNumber: Locator
 
     //Biến message/errorMessage các trường
-    // readonly messageUsername: Locator
-    // readonly messagePassword: Locator
-    // readonly messageEmail: Locator
-    // readonly messagePhoneNumber: Locator
     readonly errorMessageUsername: Locator
     readonly errorMessagePassword: Locator
     readonly errorMessageEmail: Locator
@@ -28,10 +24,6 @@ export class UserInformationPage {
         this.phoneNumber = page.getByPlaceholder("Số điện thoại")
         
         //locator errorMessage
-        // this.messageUsername = page.locator('//h6[normalize-space()="Họ và tên"]/following-sibling::input').first()
-        // this.messagePassword = page.locator('//h6[normalize-space()="Mật khẩu"]/following-sibling::input').first()
-        // this.messageEmail = page.locator('//h6[normalize-space()="Email"]/following-sibling::input').first()
-        // this.messagePhoneNumber = page.locator('//h6[normalize-space()="Số điện thoại"]/following-sibling::input').first()
         this.errorMessageUsername = page.locator('//h6[text()="Họ và tên"]/following-sibling::*[2][contains(@class,"message") or contains(@class,"errorMessage")]')
         this.errorMessagePassword = page.locator('//h6[text()="Mật khẩu"]/following-sibling::*[2][contains(@class,"message") or contains(@class,"errorMessage")]')
         this.errorMessageEmail = page.locator('//h6[text()="Email"]/following-sibling::*[2][contains(@class,"message") or contains(@class,"errorMessage")]')
@@ -62,9 +54,6 @@ export class UserInformationPage {
     }
 
     //hàm thông báo message/errorMessage
-    // async getMessage() : Promise<string> {
-    //     return this.messageUsername
-    // }
     async getErrorMessageUsername() : Promise<string> {
         let errorMessage = await this.errorMessageUsername.textContent()
         return errorMessage?.trim() || ""
