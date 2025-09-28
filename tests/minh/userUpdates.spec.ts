@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { UserInformationPage } from "../../pages/UserInformationPage";
 import { LoginPage } from "../../pages/LoginPage";
-import { BASE_URL } from "../../utils/utils";
 
 test.describe("Kiểm thử 'cập nhật user'", () => {
   //Khai báo biến loginPage, userInformation global
