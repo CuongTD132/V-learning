@@ -16,7 +16,7 @@ test.describe("Register Tests", async () => {
         await loginPage.editemail("lybao29052001@gmail.com");
         await loginPage.editphone ("0585826722");
         await loginPage.editparam("GP01");
-        await expect()("Đăng ký thành công");
+        await expect("Đăng ký thành công");
         
     })
 });
