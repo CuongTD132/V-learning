@@ -110,12 +110,13 @@ export class LandingPage {
         } else if (type === 2) {//bấm nút search
             await this.page.locator(".searchButton").click();
             await expect(this.searchResultContainer).toBeVisible()
-        } else if (type === 3) {
+        } else if (type === 3) {//kiểm tra nội dung card
             await this.searchInput.press("Enter");
             await this.page.waitForTimeout(500);
             const courseCards = this.page.locator('.courseSearchResult .myCourseItem')
             const count = await courseCards.count();
             expect(count).toBeGreaterThan(0);
+            //kiểm tra tất cả card đang có
             for (let i = 0; i < count; i++) {
                 const card = courseCards.nth(i);
                 // Ảnh đại diện
