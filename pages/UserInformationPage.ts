@@ -10,7 +10,7 @@ export class UserInformationPage {
   readonly email: Locator;
   readonly phoneNumber: Locator;
 
-  //Biến message/errorMessage các trường
+  // -----> Biến message/errorMessage các trường <------
   readonly errorMessageUsername: Locator;
   readonly errorMessagePassword: Locator;
   readonly errorMessageEmail: Locator;
@@ -22,10 +22,10 @@ export class UserInformationPage {
     this.btnUpdate = page.getByText("Cập nhật");
     this.username = page.getByPlaceholder("Họ tên");
     this.password = page.getByPlaceholder("Mật khẩu");
-    this.email = page.getByPlaceholder("Email");
-    this.phoneNumber = page.getByPlaceholder("Số điện thoại");
+    this.email = page.getByPlaceholder("Email").first();
+    this.phoneNumber = page.getByPlaceholder("Số điện thoại").first();
 
-    //locator errorMessage
+    // -----> locator errorMessage <-----
     this.errorMessageUsername = page.locator(
       '//h6[text()="Họ và tên"]/following-sibling::*[2][contains(@class,"message") or contains(@class,"errorMessage")]'
     );
@@ -54,7 +54,7 @@ export class UserInformationPage {
     await this.btnUpdate.click();
   }
 
-  //Hàm chỉnh sửa các fill
+  // -----> Hàm chỉnh sửa các fill <-----
   async editUsername(username: string) {
     await this.username.fill(username);
   }
@@ -68,14 +68,21 @@ export class UserInformationPage {
     await this.phoneNumber.fill(phoneNumber);
   }
 
-  //hàm thông báo message/errorMessage
+  // -----> Hàm thông báo message/errorMessage <-----
   async getErrorMessageUsername(): Promise<string> {
     let errorMessage = await this.errorMessageUsername.textContent();
     return errorMessage?.trim() || "";
   }
-
   async getErrorMessagePassword(): Promise<string> {
     let errorMessage = await this.errorMessagePassword.textContent();
+    return errorMessage?.trim() || "";
+  }
+  async getErrorMessageEmail(): Promise<string> {
+    let errorMessage = await this.errorMessageEmail.textContent();
+    return errorMessage?.trim() || "";
+  }
+  async getErrorMessagePhoneNumber(): Promise<string> {
+    let errorMessage = await this.errorMessagePhoneNumber.textContent();
     return errorMessage?.trim() || "";
   }
 }

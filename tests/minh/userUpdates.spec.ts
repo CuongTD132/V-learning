@@ -7,11 +7,16 @@ test.describe("Kiểm thử 'cập nhật user'", () => {
   let loginPage: LoginPage;
   let userInformationPage: UserInformationPage;
 
-  //Khai báo biến
+  //Khai báo biến errorMessgae global
   const errorUsernameLetters: string = "Chỉ nhập kí tự chữ";
   const errorUsernameNotEmpty: string = "Tên không được để trống";
   const errorPassword: string =
     "Mật khẩu phải ít nhất 8 tự gồm chữ, số, và kí tự đặc biệt";
+  const errorPasswordNotEmpty: string = "Mật khẩu không được để trống";
+  const errorEmailNotEmpty: string = "Email không được để trống";
+  const errorEmailNotValid: string = "Email không hợp lệ";
+  const errorPhoneNumberNotValid: string = "Số điện thoại chưa đúng định dạng";
+  const errorPhoneNumberNotEmpty: string = "Số điện thoại không được để trống";
 
   test.beforeEach(async ({ page }) => {
     //Khởi tạo loginPage, UserInformationPage
@@ -136,5 +141,180 @@ test.describe("Kiểm thử 'cập nhật user'", () => {
     const expectedError = errorPassword;
     const actualError = await userInformationPage.getErrorMessagePassword();
     expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-16: Để trống field 'Mật khẩu'", async () => {
+    await userInformationPage.editPassword("");
+    await userInformationPage.password.blur();
+    const expectedError = errorPasswordNotEmpty;
+    const actualError = await userInformationPage.getErrorMessagePassword();
+    expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-17: Nhập field 'Email' đúng định dạng", async () => {
+    //test password hiển thị đúng định dạng
+    const expected = "minh1234@gmail.com";
+    await userInformationPage.editEmail(expected);
+    const actual = await userInformationPage.email.inputValue();
+    expect(actual).toBe(expected);
+    //test không hiển thị thông báo lỗi
+    const expectedError = "";
+    const actualError = await userInformationPage.getErrorMessageEmail();
+    expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-18: Để trống trường 'Email'", async () => {
+    await userInformationPage.editEmail("");
+    await userInformationPage.email.blur();
+    const expectedError = errorEmailNotEmpty;
+    const actualError = await userInformationPage.getErrorMessageEmail();
+    expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-19: Field 'Email' không có ký tự @", async () => {
+    await userInformationPage.editEmail("minh123.com");
+    await userInformationPage.email.blur();
+    const expectedError = errorEmailNotValid;
+    const actualError = await userInformationPage.getErrorMessageEmail();
+    expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-20: Nhập field 'Email' không có domain", async () => {
+    await userInformationPage.editEmail("minh@gmail");
+    await userInformationPage.email.blur();
+    const expectedError = errorEmailNotValid;
+    const actualError = await userInformationPage.getErrorMessageEmail();
+    expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-21: Nhập field 'Email' có ký tự đặc biệt", async () => {
+    await userInformationPage.editEmail("minh#@gmail.com");
+    await userInformationPage.email.blur();
+    const expectedError = errorEmailNotValid;
+    const actualError = await userInformationPage.getErrorMessageEmail();
+    expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-22: Nhập field 'Email' có khoảng trắng", async () => {
+    await userInformationPage.editEmail("minh @gmail.com");
+    await userInformationPage.email.blur();
+    const expectedError = errorEmailNotValid;
+    const actualError = await userInformationPage.getErrorMessageEmail();
+    expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-23: Nhập field 'Số điện thoại' bắt đầu bằng đầu số hợp lệ", async () => {
+    const datas = [
+      "0345678912",
+      "0545678912",
+      "0745678912",
+      "0845678912",
+      "0945678912",
+    ];
+    for (const data of datas) {
+      //test nhập đúng dữ liệu từng data
+      const expected = data;
+      await userInformationPage.editPhoneNumber(data);
+      const actual = await userInformationPage.phoneNumber.inputValue();
+      expect(actual).toBe(expected);
+      //test không hiển thị thông báo lỗi từng data
+      await userInformationPage.phoneNumber.blur();
+      const expectedError = "";
+      const actualError =
+        await userInformationPage.getErrorMessagePhoneNumber();
+      expect(actualError).toBe(expectedError);
+    }
+  });
+
+  test("TC-24: Nhập field 'Số điện thoại' bắt đầu bằng đầu số không hợp lệ", async () => {
+    const datas = ["0145678912", "0245678912", "0445678912", "0645678912"];
+    for (const data of datas) {
+      await userInformationPage.editPhoneNumber(data);
+      await userInformationPage.phoneNumber.blur();
+      const expectedError = errorPhoneNumberNotValid;
+      const actualError =
+        await userInformationPage.getErrorMessagePhoneNumber();
+      expect(actualError).toBe(expectedError);
+    }
+  });
+
+  test("TC-25: Nhập field 'Số điện thoại' có ký tự chữ", async () => {
+    const datas = ["034567891m", "03sd15164a"];
+    for (const data of datas) {
+      await userInformationPage.editPhoneNumber(data);
+      await userInformationPage.phoneNumber.blur();
+      const expectedError = errorEmailNotValid;
+      const actualError =
+        await userInformationPage.getErrorMessagePhoneNumber();
+      expect(actualError).toBe(expectedError);
+    }
+  });
+
+  test("TC-26: Nhập field 'Số điện thoại' có ký tự đặc biệt", async () => {
+    const datas = ["03=8284121", "03@456487", "035464_132", "0356,78,456"];
+    for (const data of datas) {
+      await userInformationPage.editPhoneNumber(data);
+      await userInformationPage.phoneNumber.blur();
+      const expectedError = errorEmailNotValid;
+      const actualError =
+        await userInformationPage.getErrorMessagePhoneNumber();
+      expect(actualError).toBe(expectedError);
+    }
+  });
+
+  test("TC-27: Nhập field 'Số điện thoại' có khoảng trắng", async () => {
+    const datas = ["0356 456 456", "0356 45 45"];
+    for (const data of datas) {
+      await userInformationPage.editPhoneNumber(data);
+      await userInformationPage.phoneNumber.blur();
+      const expectedError = errorPhoneNumberNotValid;
+      const actualError =
+        await userInformationPage.getErrorMessagePhoneNumber();
+      expect(actualError).toBe(expectedError);
+    }
+  });
+
+  test("TC-28: Để trống field 'Số điện thoại'", async () => {
+    await userInformationPage.editPhoneNumber("");
+    await userInformationPage.phoneNumber.blur();
+    const expectedError = errorPhoneNumberNotEmpty;
+    const actualError = await userInformationPage.getErrorMessagePhoneNumber();
+    expect(actualError).toBe(expectedError);
+  });
+
+  test("TC-29: Nhập field 'Số điện thoại' nhiều hơn 10 ký tự", async () => {
+    const datas = ["0345678911231", "034654987451"];
+    for (const data of datas) {
+      await userInformationPage.editPhoneNumber(data);
+      await userInformationPage.phoneNumber.blur();
+      const expectedError = errorPhoneNumberNotValid;
+      const actualError =
+        await userInformationPage.getErrorMessagePhoneNumber();
+      expect(actualError).toBe(expectedError);
+    }
+  });
+
+  test("TC-30: Nhập field 'Số điện thoại' ít hơn 10 ký tự", async () => {
+    const datas = ["03456", "035611312"];
+    for (const data of datas) {
+      await userInformationPage.editPhoneNumber(data);
+      await userInformationPage.phoneNumber.blur();
+      const expectedError = errorPhoneNumberNotValid;
+      const actualError =
+        await userInformationPage.getErrorMessagePhoneNumber();
+      expect(actualError).toBe(expectedError);
+    }
+  });
+
+  test("TC-31: Nhập field 'Số điện thoại' với số đầu tiên khác 0", async () => {
+    const datas = ["1234567890", "9123456078"];
+    for (const data of datas) {
+      await userInformationPage.editPhoneNumber(data);
+      await userInformationPage.phoneNumber.blur();
+      const expectedError = errorPhoneNumberNotValid;
+      const actualError =
+        await userInformationPage.getErrorMessagePhoneNumber();
+      expect(expectedError).toBe(actualError);
+    }
   });
 });
