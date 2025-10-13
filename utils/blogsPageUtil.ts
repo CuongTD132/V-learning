@@ -1,0 +1,3 @@
+export const RANDOM_BLOG_POST=process.env.RANDOM_BLOG_POST || 1
+export const RANDOM_FILTER_CATEGORY=process.env.RANDOM_FILTER_CATEGORY || 1
+export const RANDOM_SUGGESTED_POST=process.env.RANDOM_SUGGESTED_POST || 1

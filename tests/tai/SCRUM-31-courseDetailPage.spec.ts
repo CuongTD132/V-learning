@@ -1,10 +1,8 @@
 import { test, expect } from "@playwright/test"
 import { CoursesDetailPage } from "../../pages/CoursesDetailPage"
 import { SELECTED_COURSSE_ID, 
-         TIMEOUT, 
-         PREVIEW_BUTTON_HOVER_BGCOLOR,
          RANDOM_RELATED_COURSE
-} from '../../utils/SCRUM-31-Util'
+} from '../../utils/courseDetailPageUtil'
 
 test.describe("Related Courses Feature", async() => {
     let coursesDetailPage: CoursesDetailPage;
@@ -43,7 +41,6 @@ test.describe("Related Courses Feature", async() => {
             const chosenRelatedCourse = coursesDetailPage.relatedCourseItems.nth(randomRelatedCourse);
             // Scroll tới vị trí của khoá học liên quan trước khi bấm nút
             await chosenRelatedCourse.scrollIntoViewIfNeeded();
-            await page.waitForTimeout(Number(TIMEOUT));
 
             // bấm vào khoá học có liên quan và đợi load trang
             await chosenRelatedCourse.click();
@@ -59,7 +56,7 @@ test.describe("Related Courses Feature", async() => {
             const relatedItem = coursesDetailPage.relatedCourseItems.nth(i);
             await relatedItem.hover();
 
-            await expect(relatedItem.locator(".subCard")).toBeVisible({timeout: Number(TIMEOUT)});
+            await expect(relatedItem.locator(".subCard")).toBeVisible();
         }
     });
 

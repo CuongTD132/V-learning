@@ -1,13 +1,9 @@
 import { test, expect } from "@playwright/test"
 import { BlogsPage } from "../../pages/BlogsPage"
-import { SELECTED_COURSSE_ID, 
-         TIMEOUT, 
-         PREVIEW_BUTTON_HOVER_BGCOLOR,
-         RANDOM_RELATED_COURSE,
-         RANDOM_BLOG_POST,
+import { RANDOM_BLOG_POST,
          RANDOM_FILTER_CATEGORY,
          RANDOM_SUGGESTED_POST
-} from '../../utils/SCRUM-32-Util'
+} from '../../utils/blogsPageUtil'
 
 test.describe("Related Courses Feature", async() => {
     let blogsPage: BlogsPage;
@@ -47,7 +43,7 @@ test.describe("Related Courses Feature", async() => {
             const chosenBlogPost = blogsPage.blogItemLeftPosts.nth(randomBlogPost);
             // Scroll tới vị trí của khoá học liên quan trước khi bấm nút
             await chosenBlogPost.scrollIntoViewIfNeeded();
-            await page.waitForTimeout(Number(TIMEOUT));
+            
 
             const postPreviewButton = chosenBlogPost.locator(".btnGlobal.btnCardBlog");
 
@@ -74,7 +70,7 @@ test.describe("Related Courses Feature", async() => {
             const chosenBlogPost = blogsPage.blogItemLeftPosts.nth(randomBlogPost);
             // Scroll tới vị trí của khoá học liên quan trước khi bấm nút
             await chosenBlogPost.scrollIntoViewIfNeeded();
-            await page.waitForTimeout(Number(TIMEOUT));
+            
 
             const postTitle = chosenBlogPost.locator("h6");
 
@@ -101,7 +97,7 @@ test.describe("Related Courses Feature", async() => {
             const chosenBlogPost = blogsPage.blogItemLeftPosts.nth(randomBlogPost);
             // Scroll tới vị trí của khoá học liên quan trước khi bấm nút
             await chosenBlogPost.scrollIntoViewIfNeeded();
-            await page.waitForTimeout(Number(TIMEOUT));
+            
 
             const postThumbnail = chosenBlogPost.locator(".imgCardBlog");
 

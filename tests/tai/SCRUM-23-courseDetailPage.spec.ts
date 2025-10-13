@@ -1,9 +1,8 @@
 import { test, expect } from "@playwright/test"
 import { CoursesDetailPage } from "../../pages/CoursesDetailPage"
-import { SELECTED_COURSSE_ID, 
-         TIMEOUT, 
+import { SELECTED_COURSSE_ID,
          PREVIEW_BUTTON_HOVER_BGCOLOR 
-} from '../../utils/SCRUM-23-Util'
+} from '../../utils/courseDetailPageUtil'
 
 test.describe("Course Detail Left Page Feature", async() => {
     let coursesDetailPage: CoursesDetailPage;
@@ -17,7 +16,6 @@ test.describe("Course Detail Left Page Feature", async() => {
         for(let i = 0; i < await coursesDetailPage.previewButtons.count(); i++) {
             const previewButton = coursesDetailPage.previewButtons.nth(i);
             await previewButton.hover();
-            await page.waitForTimeout(Number(TIMEOUT));
 
             const bg = await previewButton.evaluate(el => getComputedStyle(el).backgroundColor);
 
@@ -30,7 +28,7 @@ test.describe("Course Detail Left Page Feature", async() => {
             const previewButton = coursesDetailPage.previewButtons.nth(i);
             await previewButton.click();
 
-            await expect(page.locator('#loading'), `Nút "XEM TRƯỚC" thứ ${i} chưa xử lý hành vi bấm nút`).toBeVisible({timeout: Number(TIMEOUT)});
+            await expect(page.locator('#loading'), `Nút "XEM TRƯỚC" thứ ${i} chưa xử lý hành vi bấm nút`).toBeVisible();
         }
     });
 });

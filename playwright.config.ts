@@ -24,6 +24,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  timeout: 180000, // tổng thời gian cho mỗi test case là 180 giây = 3 phút
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://localhost:3000',
@@ -32,6 +33,11 @@ export default defineConfig({
     trace: "on",
     screenshot: "on",
     video: "on",
+    actionTimeout: 60000, // timeout cho từng action là 1 phút
+    navigationTimeout: 60000, // timeout cho chuyển trang là 1 phút
+  },
+  expect: {
+    timeout: 20000, // timeout cho expect là 20 giây
   },
 
   /* Configure projects for major browsers */
