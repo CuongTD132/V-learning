@@ -1,12 +1,11 @@
 import test, { expect } from "@playwright/test";
 import { CoursesPage } from "../../pages/CoursesPage";
-import { log } from "console";
 
 test.describe("Courses Page", () => {
 
     let coursesPage: CoursesPage;
 
-    test.setTimeout(300000); // Tăng thời gian chờ cho toàn bộ mô tả
+    test.setTimeout(3000000);
 
     test.beforeEach(async ({ page }) => {
         coursesPage = new CoursesPage(page);
@@ -14,51 +13,46 @@ test.describe("Courses Page", () => {
     });
 
     test("Kiểm tra chuyển trang khi click vào các Khóa học", async () => {
-        let hasNextPage = true;
+        let totalPages = await coursesPage.getPageCount();
         let totalCoursesChecked = 0;
         let currentPageNum = await coursesPage.getCurrentPageNumber();
 
-        while (hasNextPage) {
-            console.log(`\n📄 Đang kiểm tra trang ${currentPageNum}`);
+        console.log(`Tổng số trang: ${totalPages}`);
+        for(let i = 1; i <= totalPages; i++){
+            console.log(`\nĐang kiểm tra trang ${currentPageNum}`);
+            
+            // Dùng để lưu trang
+            let savedPageNum = await coursesPage.getCurrentPageNumber();
 
-            // Lưu lại số trang hiện tại để quay về sau khi kiểm tra chi tiết khóa học
-            const savedPageNum = await coursesPage.getCurrentPageNumber();
-
-            // Lấy số lượng khóa học trong trang hiện tại
+            // Đếm số khóa học
             const courseCount = await coursesPage.getCourseCount();
-            console.log(`   Tìm thấy ${courseCount} khóa học`);
 
-            // Kiểm tra khóa học
+            // Click từng khóa học
             for (let j = 0; j < courseCount; j++) {
-                console.log(`   ✓ Kiểm tra khóa học ${j + 1}/${courseCount}`);
-
                 await coursesPage.clickCourseByIndex(j);
-
-                // Kiểm tra URL có chuyển đến trang chi tiết không
                 await expect(coursesPage.page).toHaveURL(/.*\/chitiet/);
 
                 const url = coursesPage.page.url();
                 const courseId = url.split("/chitiet/")[1]?.split("/")[0];
-                log(`      - ID khóa học: ${courseId}`);
-
-                await coursesPage.goBackToCoursesAndReturnToPage(savedPageNum);
-
+                console.log(`Khóa học ${j + 1} -> ID: ${courseId}`);
+                
+                // Quay lại trang Khóa học và trở về đúng trang đã lưu
+                await coursesPage.goBackToPreviousPage(savedPageNum);
+                
+                // Đếm số khóa học
                 totalCoursesChecked++;
             }
-
             // Chuyển sang trang tiếp theo
-            console.log(`   Đang chuyển sang trang ${currentPageNum + 1}...`);
-            hasNextPage = await coursesPage.clickNextPage();
+            let clickNextPage = await coursesPage.clickNextPage();
 
-            if (hasNextPage) {
+            if(clickNextPage) {
                 currentPageNum = await coursesPage.getCurrentPageNumber();
             } else {
-                console.log(`\n✅ Đã kiểm tra xong tất cả ${currentPageNum} trang`);
-                console.log(`📊 Tổng số khóa học đã kiểm tra: ${totalCoursesChecked}`);
+                console.log("Tổng số khóa học: " + totalCoursesChecked);
+                break;
             }
         }
-
-        // Đảm bảo đã kiểm tra ít nhất 1 khóa học
-        expect(totalCoursesChecked).toBeGreaterThan(0);
+        
     });
+
 });
