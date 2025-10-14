@@ -1,6 +1,6 @@
-import { Page, Locator } from '@playwright/test'
-import { BASE_URL } from '../utils/utils'
-import { LOGIN_URL, TIMEOUT } from '../utils/SCRUM-24-Util';
+import { Page, Locator } from '@playwright/test';
+import { BASE_URL } from '../utils/utils';
+import { TIMEOUT } from '../utils/courseDetailPageUtil';
 import { LoginPage } from './LoginPage';
 
 export class CoursesDetailPage {
