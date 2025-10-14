@@ -12,7 +12,7 @@ test.describe("Courses Page", () => {
         await coursesPage.goToCoursesPage();
     });
 
-    test("Kiểm tra chuyển trang khi click vào các Khóa học", async () => {
+    test("TC10 - Kiểm tra chuyển trang khi click vào các Khóa học", async () => {
         let totalPages = await coursesPage.getPageCount();
         let totalCoursesChecked = 0;
         let currentPageNum = await coursesPage.getCurrentPageNumber();
@@ -51,8 +51,7 @@ test.describe("Courses Page", () => {
                 console.log("Tổng số khóa học: " + totalCoursesChecked);
                 break;
             }
-        }
-        
+        }   
     });
 
 });

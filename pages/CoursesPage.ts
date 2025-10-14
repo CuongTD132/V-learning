@@ -11,6 +11,7 @@ export class CoursesPage {
     readonly ellipsis: Locator;
     readonly lastPage: Locator;
     readonly currentPageLocator: Locator;
+    readonly loader: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -21,6 +22,7 @@ export class CoursesPage {
         this.ellipsis = page.locator('.paginationPages li', { hasText: "..." });
         this.lastPage = page.locator('.paginationPages li a').nth(-2);
         this.currentPageLocator = page.locator('.paginationPages li.active');
+        this.loader = page.locator('#loader');
     }
 
     async goToCoursesPage(): Promise<void> {
@@ -51,7 +53,6 @@ export class CoursesPage {
             }
 
             await this.nextButton.click();
-
             await this.page.waitForSelector('a.cardGlobal');
 
             return true;
@@ -64,27 +65,22 @@ export class CoursesPage {
     async clickPageNumber(pageNum: number): Promise<void> {
         const pageText = pageNum.toString();
 
-        // Trang 4,5 => click 1 lần dấu "..."
-        // Trang 6,7,8,9 => click 2 lần dấu "..."
-        // Do trang khi qua về thì load lại nên gán cố định số lần click 
-        const dotsToClick = (pageNum >= 4 && pageNum <= 5) ? 1
-            : (pageNum >= 6) ? 2
-                : 0;
+        // Tìm số trang trên thanh phân trang
+        const findPage = async () => this.pageNumber.filter({ hasText: pageText }).first();
 
-        for (let i = 0; i < dotsToClick; i++) {
+        let matchedElement = await findPage();
+
+        // Click "..." khi kh tìm thấy trang
+        while (!(await matchedElement.isVisible())) {
             const dot = this.ellipsis.first();
-            await dot.click();
-        }
 
-        // Tìm và click số trang
-        const matchedElement = this.pageNumber.filter({ hasText: pageText }).first();
-
-        if (!(await matchedElement.isVisible())) {
-            throw new Error(`Không tìm thấy thẻ phân trang có số "${pageText}"`);
+            if (await dot.isVisible()) {
+                await dot.click();
+                matchedElement = this.pageNumber.filter({ hasText: pageText }).first();
+            }
         }
 
         await matchedElement.click();
-
     }
 
     async goBackToPreviousPage(pageNum: number): Promise<void> {
@@ -108,47 +104,27 @@ export class CoursesPage {
 
     // Pagination
 
-    async clickPageByText(text: string): Promise<void> {
-        await this.page.locator("a.pageLinkPages ", { hasText: text }).click();
-        await this.page.waitForLoadState("networkidle");
+    async clickPrevious(): Promise<void> {
+        await this.prevButton.click();
+    }
+
+    async clickNext(): Promise<void> {
+        await this.nextButton.click();
+    }
+
+    async goToLastPage(): Promise<void> {
+        await this.lastPage.click();
     }
 
     async isPrevDisabled(): Promise<boolean> {
-        return (await this.prevButton.getAttribute("aria-disabled")) === "true";
+        return (await this.prevButton.getAttribute('aria-disabled')) === 'true';
     }
 
     async isNextDisabled(): Promise<boolean> {
-        return (await this.nextButton.getAttribute("aria-disabled")) === "true";
+        return (await this.nextButton.getAttribute('aria-disabled')) === 'true';
     }
 
-    async clickPrevious(): Promise<void> {
-        await this.prevButton.click();
-        await this.page.waitForLoadState('networkidle');
-    }
-
-    async clickNextUntilEnd(): Promise<void> {
-        while (!(await this.isNextDisabled())) {
-            await this.nextButton.click();
-            await this.page.waitForLoadState("networkidle");
-        }
-    }
-
-    async clickEllipsisIfVisible(): Promise<boolean> {
-        if (await this.ellipsis.isVisible()) {
-            await this.ellipsis.click();
-            await this.page.waitForLoadState("networkidle");
-            return true;
-        }
-        return false;
-    }
-
-    async clickEllipsis(): Promise<number> {
-        const currentPage = await this.getCurrentPageNumber();
-        await this.ellipsis.click();
-        await this.page.waitForLoadState("networkidle");
-
-        const newPage = await this.getCurrentPageNumber();
-        console.log(`Nhấn "..." từ trang ${currentPage} → sang trang ${newPage}`);
-        return newPage;
+    async isLoader(): Promise<boolean> {
+        return this.loader.isVisible();
     }
 }

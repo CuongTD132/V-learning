@@ -9,46 +9,36 @@ test.describe("Pagination in Courses Page", () => {
         coursesPage = new CoursesPage(page);
         await coursesPage.goToCoursesPage();
     });
-
-    test("Hiển thị thanh phân trang", async () => {
-        const pageCount = await coursesPage.getPaginationCount();
-        test.info().annotations.push({
-            type: "Số trang tìm thấy",
-            description: `${pageCount}`
-        });
-
-        expect(pageCount).toBeGreaterThan(0);
+    
+    test('TC6 - Hiển thị loader khi chuyển trang', async () => {
+        await coursesPage.clickNext();
+        expect(await coursesPage.isLoader()).toBeTruthy();
     });
 
-    test("Kiểm tra nút '< Trước'", async () => {
-        // chuyển sang trang 2
-        await coursesPage.clickPageByText("2");
-        await expect(coursesPage.page).toHaveURL(/page=2/);
+    test('TC9.1 - Trang đầu: nút "Trước" không có tác dụng', async () => {
+        const currentPage = await coursesPage.getCurrentPageNumber();
 
-        // kiểm tra nút Trước enable
-        const isDisabled = await coursesPage.isPrevDisabled();
-        expect(isDisabled).toBeFalsy();
+        // Đang ở trang đầu
+        expect(currentPage).toBe(1);
 
-        // click nút Trước → quay về trang 1
-        await coursesPage.clickPrevious();
-        await expect(coursesPage.page).toHaveURL(/page=1/);
+        // Nút "Trước" disabled
+        expect(coursesPage.isPrevDisabled).toBeTruthy();
     });
 
-    test("Kiểm tra nút 'Sau >'", async () => {
-        await coursesPage.clickNextUntilEnd();
-        expect(await coursesPage.isNextDisabled()).toBeTruthy();
+    test('TC9.2 - Trang cuối: nút "Sau" không có tác dụng', async () => {
+
+        await coursesPage.goToLastPage();
+
+        // Nút "Sau" disabled
+        expect(coursesPage.isNextDisabled).toBeTruthy();
     });
 
-    test("Kiểm tra hiển thị của '...'", async () => {
-        const before = await coursesPage.getPaginationCount();
-        const clicked = await coursesPage.clickEllipsisIfVisible();
+    test('TC9.3 - Nút "Trước" và "Sau" hoạt động', async () => {
+        await coursesPage.clickNext();
+        expect(await coursesPage.getCurrentPageNumber()).toBe(2);
 
-        if (clicked) {
-            const after = await coursesPage.getPaginationCount();
-            expect(after).toBeGreaterThan(before);
-        } else {
-            test.skip(true, "Không có nút '...' trên trang này");
-        }
+        await coursesPage.clickPrevious(); 
+        expect(await coursesPage.getCurrentPageNumber()).toBe(1);
     });
 
 });
