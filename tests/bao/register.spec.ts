@@ -10,12 +10,10 @@ test.describe("Register Tests", async () => {
         await loginPage.enterSignUp();
     });
     test("TC-1 Đăng ký với đầy đủ thông tin hợp lệ ", async ({ page }) => {
-<<<<<<< HEAD
         const randomUser = "bao" + Date.now().toString().slice(-4);
         const randomEmail = `baoly${Date.now().toString().slice(-4)}@gmail.com`;
         console.log("random Username", randomUser)
         console.log("RandomEmail", randomEmail)
-=======
         await loginPage.enterSignUp();
         await loginPage.editUsername("bao29");
         await loginPage.editfullname("Nguyễn Lý Bảo");
@@ -25,21 +23,6 @@ test.describe("Register Tests", async () => {
         await loginPage.editparam("GP01");
         await expect("Đăng ký thành công");
         
-    })
-});
->>>>>>> dee56e44e347a448e4309e678e04bad440a6c8e6
-
-        await loginPage.editUsername(randomUser);
-        await loginPage.editemail(randomEmail);
-        await loginPage.editfullname("Nguyễn Lý Bảo");
-        await loginPage.editPassword("Bao29052001@");
-        await loginPage.editphone("0585826711");
-        await loginPage.editparam("GP01");
-
-        await loginPage.clickregister();
-
-        const errorMessage = await loginPage.getErrorMessage();
-        expect(errorMessage).toContain("Đăng kí thành công");
     })
     test("TC-2 Nhập field Tài khoản đúng định dạng ", async() =>{
         await loginPage.editUsername("Bao29");
@@ -265,4 +248,4 @@ test.describe("Register Tests", async () => {
     const errorMessagePassWord = await loginPage.getErrorMessagePassWord();
     expect(errorMessagePassWord).toBe("Mật khẩu phải ít nhất 8 tự gồm chữ, số, và kí tự đặc biệt");
    })
-})
+});
