@@ -10,10 +10,24 @@ test.describe("Register Tests", async () => {
         await loginPage.enterSignUp();
     });
     test("TC-1 Đăng ký với đầy đủ thông tin hợp lệ ", async ({ page }) => {
+<<<<<<< HEAD
         const randomUser = "bao" + Date.now().toString().slice(-4);
         const randomEmail = `baoly${Date.now().toString().slice(-4)}@gmail.com`;
         console.log("random Username", randomUser)
         console.log("RandomEmail", randomEmail)
+=======
+        await loginPage.enterSignUp();
+        await loginPage.editUsername("bao29");
+        await loginPage.editfullname("Nguyễn Lý Bảo");
+        await loginPage.editPassword("Bao290501");
+        await loginPage.editemail("lybao29052001@gmail.com");
+        await loginPage.editphone ("0585826722");
+        await loginPage.editparam("GP01");
+        await expect("Đăng ký thành công");
+        
+    })
+});
+>>>>>>> dee56e44e347a448e4309e678e04bad440a6c8e6
 
         await loginPage.editUsername(randomUser);
         await loginPage.editemail(randomEmail);

@@ -7,14 +7,8 @@ This project uses [Playwright](https://playwright.dev/) for end-to-end testing.
 - npm (comes with Node.js)
 
 ## Setup
-Install dependencies:
-**npm i**
+### Install dependencies: `npm i`
 
-Install Playwright browsers:
-**npx playwright i**
+### Run all tests: `npx playwright test`
 
-Run all tests:
-**npx playwright test**
-
-Show the latest report:
-**npx playwright show-report**
+### Show the latest report: `npx playwright show-report`
