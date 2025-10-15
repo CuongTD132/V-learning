@@ -64,28 +64,41 @@ export class CoursesPage {
 
     async clickPageNumber(pageNum: number): Promise<void> {
         const pageText = pageNum.toString();
-
-        // Tìm số trang trên thanh phân trang
         const findPage = async () => this.pageNumber.filter({ hasText: pageText }).first();
-
         let matchedElement = await findPage();
 
-        // Click "..." khi kh tìm thấy trang
         while (!(await matchedElement.isVisible())) {
-            const dot = this.ellipsis.first();
+            const dots = this.ellipsis.filter({ hasText: "..." });
+            const dotCount = await dots.count();
 
-            if (await dot.isVisible()) {
-                await dot.click();
-                matchedElement = this.pageNumber.filter({ hasText: pageText }).first();
+            if (dotCount === 0) break;
+
+            let dotToClick;
+            // Đếm "..." hiển thị, nếu có nhiều hơn 1 thì click cái cuối, ngược lại click cái đầu
+            if (dotCount > 1) {
+                dotToClick = dots.nth(dotCount - 1);
+            } else {
+                dotToClick = dots.first();
             }
-        }
 
-        await matchedElement.click();
+            if (await dotToClick.isVisible()) {
+                await dotToClick.click();
+            }
+            matchedElement = await findPage();
+        }
+        if (await matchedElement.isVisible()) {
+            await matchedElement.click();
+        } else {
+            throw new Error(`Không thể tìm thấy trang ${pageText}`);
+        }
     }
+
 
     async goBackToPreviousPage(pageNum: number): Promise<void> {
         // Quay về trang trước
         await this.page.goBack();
+
+        await this.page.waitForSelector('a.cardGlobal');
 
         // Click lại số trang đã lưu
         await this.clickPageNumber(pageNum);

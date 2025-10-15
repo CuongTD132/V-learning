@@ -5,7 +5,7 @@ test.describe("Courses Page", () => {
 
     let coursesPage: CoursesPage;
 
-    test.setTimeout(3000000);
+    test.setTimeout(400000);
 
     test.beforeEach(async ({ page }) => {
         coursesPage = new CoursesPage(page);
