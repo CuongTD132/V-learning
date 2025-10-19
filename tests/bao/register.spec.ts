@@ -14,15 +14,13 @@ test.describe("Register Tests", async () => {
         const randomEmail = `baoly${Date.now().toString().slice(-4)}@gmail.com`;
         console.log("random Username", randomUser)
         console.log("RandomEmail", randomEmail)
-        await loginPage.enterSignUp();
-        await loginPage.editUsername("bao29");
+        await loginPage.editUsername(randomUser);
         await loginPage.editfullname("Nguyễn Lý Bảo");
-        await loginPage.editPassword("Bao290501");
-        await loginPage.editemail("lybao29052001@gmail.com");
+        await loginPage.editPassword("Bao290501@@");
+        await loginPage.editemail(randomEmail);
         await loginPage.editphone ("0585826722");
         await loginPage.editparam("GP01");
-        await expect("Đăng ký thành công");
-        
+        await loginPage.clickregister();
     })
     test("TC-2 Nhập field Tài khoản đúng định dạng ", async() =>{
         await loginPage.editUsername("Bao29");

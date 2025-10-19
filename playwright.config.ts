@@ -47,14 +47,7 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
 
-<<<<<<< HEAD
-    /* Configure projects for major browsers */
-    projects: [
-        {
-          name: 'chromium',
-          use: { ...devices['Desktop Chrome'] },
-        },
-        
+
         // {
         //   name: 'firefox',
         //   use: { ...devices['Desktop Firefox'] },
@@ -91,11 +84,10 @@ export default defineConfig({
     //   command: 'npm run start',
     //   url: 'http://localhost:3000',
     //   reuseExistingServer: !process.env.CI,
-=======
     // {
     //   name: "firefox",
     //   use: { ...devices["Desktop Firefox"] },
->>>>>>> dee56e44e347a448e4309e678e04bad440a6c8e6
+
     // },
 
     // {
@@ -122,7 +114,7 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
-  ],
+  
 
   /* Run your local dev server before starting the tests */
   // webServer: {
