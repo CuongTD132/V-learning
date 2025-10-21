@@ -1,6 +1,5 @@
 import { Page, Locator } from '@playwright/test';
 import { BASE_URL } from '../utils/utils';
-import { TIMEOUT } from '../utils/courseDetailPageUtil';
 import { LoginPage } from './LoginPage';
 
 export class CoursesDetailPage {
@@ -40,16 +39,12 @@ export class CoursesDetailPage {
         // tạo instance loginPage và login trước khi thực hiện test
         const loginPage = new LoginPage(this.page);
         await loginPage.goto();
+        await this.page.waitForLoadState('domcontentloaded');
         await loginPage.editUsername("tai123");
-        await this.page.waitForTimeout(Number(TIMEOUT));
         await loginPage.editPassword("P@ssword1");
-        await this.page.waitForTimeout(Number(TIMEOUT));
         await loginPage.clickLogin();
-        await this.page.waitForTimeout(Number(TIMEOUT));
 
-        const credentials = await this.page.evaluate(() => 
-            localStorage.getItem('credentials'), 
-        {timeout: Number(TIMEOUT)});
+        const credentials = await this.page.evaluate(() => localStorage.getItem('credentials'));
 
         return JSON.stringify(credentials);
     }

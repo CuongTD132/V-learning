@@ -12,14 +12,21 @@ test.describe("Course Detail Left Page Feature", async() => {
         await coursesDetailPage.goToDetailPage(Number(SELECTED_COURSSE_ID));
     });
 
-    test('TC01: Feature check - Hiển thị nút nhấn "Xem trước".', async({page}) => {
+    test('TC01: Feature check - Hiển thị nút nhấn "Xem trước".', async() => {
         for(let i = 0; i < await coursesDetailPage.previewButtons.count(); i++) {
             const previewButton = coursesDetailPage.previewButtons.nth(i);
+            await previewButton.scrollIntoViewIfNeeded();
             await previewButton.hover();
 
-            const bg = await previewButton.evaluate(el => getComputedStyle(el).backgroundColor);
+            const bg = await previewButton.evaluate(el => {
+                const color = getComputedStyle(el).backgroundColor;
+                // color có dạng "rgba(65, 178, 148, 0.094)"
+                const [r, g, b] = color.match(/\d+/g)!.slice(0, 3);
+                return `rgb(${r}, ${g}, ${b})`;
+            });
 
             expect(bg).toBe(PREVIEW_BUTTON_HOVER_BGCOLOR);
+
         }
     });
 

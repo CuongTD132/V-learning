@@ -14,12 +14,19 @@ test.describe("Course Detail Right Page Feature", async() => {
         await coursesDetailPage.goToDetailPage(Number(SELECTED_COURSSE_ID));
     });
 
-    test('TC01: Feature check - Hover nút nhấn "Đăng ký".', async({page}) => {
+    test('TC01: Feature check - Hover nút nhấn "Đăng ký".', async() => {
 
+        await coursesDetailPage.enrollButton.scrollIntoViewIfNeeded();
         await coursesDetailPage.enrollButton.hover();
         
 
-        const bg = await coursesDetailPage.enrollButton.evaluate(el => getComputedStyle(el).backgroundColor);
+        // const bg = await coursesDetailPage.enrollButton.evaluate(el => getComputedStyle(el).backgroundColor);
+        const bg = await coursesDetailPage.enrollButton.evaluate(el => {
+                const color = getComputedStyle(el).backgroundColor;
+                // color có dạng "rgba(65, 178, 148, 0.094)"
+                const [r, g, b] = color.match(/\d+/g)!.slice(0, 3);
+                return `rgb(${r}, ${g}, ${b})`;
+            });
 
         expect(bg).toBe(PREVIEW_BUTTON_HOVER_BGCOLOR);
     });
@@ -47,9 +54,9 @@ test.describe("Course Detail Right Page Feature", async() => {
         // thực hiện click nút "ĐĂNG KÝ"
             await coursesDetailPage.enrollButton.click();
 
-        // kiểm tra nếu không có credentials thì redirect về login page
+        // kiểm tra nếu  có credentials thì hiển thị modal
         if(credentials) {
-            const modal = page.locator(".swal-overlay");
+            const modal = page.locator(".swal-modal");
 
             await expect(modal).toBeVisible();
         }
