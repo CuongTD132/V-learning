@@ -39,9 +39,9 @@ export class CoursesDetailPage {
         // tạo instance loginPage và login trước khi thực hiện test
         const loginPage = new LoginPage(this.page);
         await loginPage.goto();
-        await this.page.waitForLoadState('domcontentloaded');
-        await loginPage.editUsername("tai123");
-        await loginPage.editPassword("P@ssword1");
+        await this.page.waitForLoadState('networkidle');
+        await loginPage.editLoginUsername("tai123");
+        await loginPage.editLoginPassword("P@ssword1");
         await loginPage.clickLogin();
 
         const credentials = await this.page.evaluate(() => localStorage.getItem('credentials'));

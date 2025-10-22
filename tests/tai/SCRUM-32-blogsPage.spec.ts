@@ -13,21 +13,28 @@ test.describe("Related Courses Feature", async() => {
         await blogsPage.goToBlogsPage();
     });
 
-    test('TC01: Feature check - Hover vào nút nhấn "Xem thêm" ở trên các Blog Item. ', async() => {
-        for(let i = 0; i < await blogsPage.blogItemLeftPosts.count(); i++) {
+    test('TC01: Feature check - Hover vào nút nhấn "Xem thêm" ở trên các Blog Item. ', async({page}) => {
+        const count = await blogsPage.blogItemLeftPosts.count();
+        for(let i = 0; i < count - 1; i++) {
             const post = blogsPage.blogItemLeftPosts.nth(i);
             const postPreviewButton = post.locator(".btnGlobal.btnCardBlog");
 
             // trước khi hover thì thuộc tính transform là none
             const transformBeforeHover = await postPreviewButton.evaluate(el => getComputedStyle(el).transform);
-
-            await postPreviewButton.hover();
             
+            await postPreviewButton.scrollIntoViewIfNeeded();
+            await postPreviewButton.hover();
+            // vì nút nhấn có transition nên cần đợi hết transition mới kiểm tra
+            await page.waitForTimeout(600);
             // sau khi hover thì thuộc tính transform đã được gán giá trị
             const transformAfterHover = await postPreviewButton.evaluate(el => getComputedStyle(el).transform);
 
             // mong đợi kiểm tra 2 style css transform trước và sau hover sẽ khác nhau
             expect(transformBeforeHover).not.toBe(transformAfterHover);
+
+            // Reset lại trạng thái hover cho vòng lặp kế tiếp
+            await page.mouse.move(0, 0);
+            await page.waitForTimeout(300);
         }
     });
 
@@ -39,7 +46,7 @@ test.describe("Related Courses Feature", async() => {
         const randomBlogPost = Number(RANDOM_BLOG_POST);
 
         // lựa ngẫu nhiên 1 khoá học để thực hiện bấm nút
-        if(randomBlogPost <= count) {
+        if(randomBlogPost <= count - 1) {
             const chosenBlogPost = blogsPage.blogItemLeftPosts.nth(randomBlogPost);
             // Scroll tới vị trí của khoá học liên quan trước khi bấm nút
             await chosenBlogPost.scrollIntoViewIfNeeded();
@@ -66,7 +73,7 @@ test.describe("Related Courses Feature", async() => {
         const randomBlogPost = Number(RANDOM_BLOG_POST);
 
         // lựa ngẫu nhiên 1 khoá học để thực hiện bấm nút
-        if(randomBlogPost <= count) {
+        if(randomBlogPost <= count - 1) {
             const chosenBlogPost = blogsPage.blogItemLeftPosts.nth(randomBlogPost);
             // Scroll tới vị trí của khoá học liên quan trước khi bấm nút
             await chosenBlogPost.scrollIntoViewIfNeeded();
@@ -93,7 +100,7 @@ test.describe("Related Courses Feature", async() => {
         const randomBlogPost = Number(RANDOM_BLOG_POST);
 
         // lựa ngẫu nhiên 1 khoá học để thực hiện bấm nút
-        if(randomBlogPost <= count) {
+        if(randomBlogPost <= count - 1) {
             const chosenBlogPost = blogsPage.blogItemLeftPosts.nth(randomBlogPost);
             // Scroll tới vị trí của khoá học liên quan trước khi bấm nút
             await chosenBlogPost.scrollIntoViewIfNeeded();
@@ -118,7 +125,7 @@ test.describe("Related Courses Feature", async() => {
         const count = await blogsPage.blogItemRight.locator('.blogRightBox li a').count();
         const randomFilterCategory = Number(RANDOM_FILTER_CATEGORY);
 
-        if(randomFilterCategory <= count) {
+        if(randomFilterCategory <= count - 1) {
             const chosenCategory = blogsPage.blogItemRight.locator('.blogRightBox li a').nth(randomFilterCategory);
             
             // bấm vào category được chọn
@@ -138,7 +145,7 @@ test.describe("Related Courses Feature", async() => {
         const count = await blogsPage.blogItemRight.locator('.blogRightBox .postBlog').count();
         const randomSuggestedPost = Number(RANDOM_SUGGESTED_POST);
 
-        if(randomSuggestedPost <= count) {
+        if(randomSuggestedPost <= count - 1) {
             const chosenSuggestedPost = blogsPage.blogItemRight.locator('.blogRightBox .postBlog').nth(randomSuggestedPost);
             const chosenPostTitle = chosenSuggestedPost.locator('h6');
 

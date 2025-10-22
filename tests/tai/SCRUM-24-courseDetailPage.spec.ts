@@ -38,6 +38,7 @@ test.describe("Course Detail Right Page Feature", async() => {
         );
 
         // thực hiện click nút "ĐĂNG KÝ"
+        await coursesDetailPage.enrollButton.scrollIntoViewIfNeeded();
         await coursesDetailPage.enrollButton.click();
 
         // kiểm tra nếu không có credentials thì redirect về login page
@@ -49,6 +50,7 @@ test.describe("Course Detail Right Page Feature", async() => {
 
     test('TC03: Feature check - Bấm nút nhấn "Đăng ký" khi đăng nhập thành công', async({page}) => {
         const credentials = await coursesDetailPage.loginForTest();
+        console.log(credentials);
         await coursesDetailPage.goToDetailPage(Number(SELECTED_COURSSE_ID));
 
         // thực hiện click nút "ĐĂNG KÝ"
@@ -93,5 +95,13 @@ test.describe("Course Detail Right Page Feature", async() => {
             await expect(page.locator("#loading-promotion")).toBeVisible();
         }
 
+    });
+
+    test.skip('TC06: Feature check - Thực thi mã thành công.', async() => {
+        // Test case bị blocked do chức năng chưa được thực hiện
+    });
+
+    test.skip('TC07: Feature check - Thực thi mã thất bại', async() => {
+        // Test case bị blocked do chức năng chưa được thực hiện
     });
 });

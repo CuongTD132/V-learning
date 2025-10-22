@@ -61,11 +61,17 @@ export class LoginPage {
     async editfullname(fullName: string) {
         await this.fullname.fill(fullName);
     }
+    async editLoginUsername(username: string) {
+        await this.username.fill(username);
+    }
     async editUsername(user: string) {
         await this.usernamesignup.fill(user);
     }
     async clickregister() {
         await this.registerButton.click();
+    }
+    async editLoginPassword(password: string) {
+        await this.password.fill(password);
     }
     async editPassword(pass: string) {
         await this.passwordsignup.fill(pass);
@@ -97,5 +103,6 @@ export class LoginPage {
         let errorMessage = await this.errorMessagePhone.textContent();
         return errorMessage?.trim() || "";
     }
+    
 }
  

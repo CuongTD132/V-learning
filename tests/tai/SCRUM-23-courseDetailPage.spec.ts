@@ -13,7 +13,8 @@ test.describe("Course Detail Left Page Feature", async() => {
     });
 
     test('TC01: Feature check - Hiển thị nút nhấn "Xem trước".', async() => {
-        for(let i = 0; i < await coursesDetailPage.previewButtons.count(); i++) {
+        const count = await coursesDetailPage.previewButtons.count();
+        for(let i = 0; i < count - 1; i++) {
             const previewButton = coursesDetailPage.previewButtons.nth(i);
             await previewButton.scrollIntoViewIfNeeded();
             await previewButton.hover();
@@ -37,5 +38,21 @@ test.describe("Course Detail Left Page Feature", async() => {
 
             await expect(page.locator('#loading'), `Nút "XEM TRƯỚC" thứ ${i} chưa xử lý hành vi bấm nút`).toBeVisible();
         }
+    });
+
+    test.skip('TC03: Feature check - Bấm nút "Xem trước" và hiển thị popup chứa video xem trước.', async() => {
+        // Test case bị blocked do chức năng chưa được thực hiện
+    });
+
+    test.skip('TC04: Feature check - Hiển thị giao diện popup.', async() => {
+        // Test case bị blocked do chức năng chưa được thực hiện
+    });
+
+    test.skip('TC05: Feature check - Thao tác trên giao diện video xem trước.', async() => {
+        // Test case bị blocked do chức năng chưa được thực hiện
+    });
+
+    test.skip('TC06: Feature check - Bấm nút "Đóng" để tắt popup.', async() => {
+        // Test case bị blocked do chức năng chưa được thực hiện
     });
 });

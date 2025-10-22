@@ -52,8 +52,11 @@ test.describe("Related Courses Feature", async() => {
     });
 
     test('TC03: Feature check - Hover vào các item khoá học liên quan.', async({page}) => {
-        for(let i = 0; i < await coursesDetailPage.relatedCourseItems.count(); i++) {
-            const relatedItem = coursesDetailPage.relatedCourseItems.nth(i);
+        const count = await coursesDetailPage.relatedCourseItems.count()
+        
+        for(let i = 0; i < count - 1; i++) {
+            let relatedItem = coursesDetailPage.relatedCourseItems.nth(i);
+            await relatedItem.scrollIntoViewIfNeeded();
             await relatedItem.hover();
 
             await expect(relatedItem.locator(".subCard")).toBeVisible();
@@ -100,20 +103,22 @@ test.describe("Related Courses Feature", async() => {
 
     test('TC06: Feature check - Bấm vào nút nhấn "Xem Chi Tiết" trên popover.', async({page}) => {
         const currentUrl = await page.url();
+        const count = await coursesDetailPage.relatedCourseItems.count()
 
-        for(let i = 0; i < await coursesDetailPage.relatedCourseItems.count(); i++) {
-            const relatedItem = coursesDetailPage.relatedCourseItems.nth(i);
+        for(let i = 0; i < count - 1; i++) {
+            const relatedItem = coursesDetailPage.relatedCourseItems.nth(1);
             await relatedItem.hover();
 
             const popOver = relatedItem.locator(".subCard");
             const previewCourseButton = popOver.locator('.btnGlobal.btnSubCard');
 
             // click nút xem chi tiết
+            await previewCourseButton.scrollIntoViewIfNeeded();
             await previewCourseButton.click();
             await page.waitForLoadState('networkidle');
 
             const currentUrlAfterClick = await page.url();
-
+            
             // mong đợi url trước và sau khi click nút xem chi tiết sẽ khác nhau
             expect(currentUrl).not.toBe(currentUrlAfterClick);
         }

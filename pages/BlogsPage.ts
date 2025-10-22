@@ -29,7 +29,6 @@ export class BlogsPage {
     }
 
     async goToBlogsPage() {
-        await this.page.goto(`${BASE_URL}/blog`);
-        await this.page.waitForLoadState('networkidle');
+        await this.page.goto(`${BASE_URL}/blog`, { waitUntil: 'domcontentloaded' });
     }
 }
