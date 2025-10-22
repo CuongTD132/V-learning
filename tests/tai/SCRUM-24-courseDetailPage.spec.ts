@@ -50,11 +50,11 @@ test.describe("Course Detail Right Page Feature", async() => {
 
     test('TC03: Feature check - Bấm nút nhấn "Đăng ký" khi đăng nhập thành công', async({page}) => {
         const credentials = await coursesDetailPage.loginForTest();
-        console.log(credentials);
-        await coursesDetailPage.goToDetailPage(Number(SELECTED_COURSSE_ID));
+
 
         // thực hiện click nút "ĐĂNG KÝ"
-            await coursesDetailPage.enrollButton.click();
+        await coursesDetailPage.enrollButton.scrollIntoViewIfNeeded();
+        await coursesDetailPage.enrollButton.click();
 
         // kiểm tra nếu  có credentials thì hiển thị modal
         if(credentials) {

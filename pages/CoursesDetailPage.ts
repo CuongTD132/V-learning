@@ -44,6 +44,8 @@ export class CoursesDetailPage {
         await loginPage.editLoginPassword("P@ssword1");
         await loginPage.clickLogin();
 
+        await this.page.waitForURL(`${BASE_URL}/chitiet/**`);
+
         const credentials = await this.page.evaluate(() => localStorage.getItem('credentials'));
 
         return JSON.stringify(credentials);
