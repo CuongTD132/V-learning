@@ -27,6 +27,7 @@ export class LoginPage {
         this.password = page.getByPlaceholder("Mật khẩu").nth(1);
         this.loginButton = page.getByText("Đăng nhập").nth(1);
         this.errorMessage = page.locator(".swal-title")
+    
         // Locator đăng kí
         this.errorMessageFullName = page.locator('//input[@name="hoTen"]/following-sibling::div[(contains(@class,"message") or contains(@class,"errorMessage")) and not(contains(@class,"hidden"))][1]')
         this.errorMessagePassWord = page.locator('//input[@name="matKhau"]/following-sibling::div[(contains(@class,"message") or contains(@class,"errorMessage")) and not(contains(@class,"hidden"))][1]')
@@ -103,6 +104,4 @@ export class LoginPage {
         let errorMessage = await this.errorMessagePhone.textContent();
         return errorMessage?.trim() || "";
     }
-    
-}
- 
+} 
