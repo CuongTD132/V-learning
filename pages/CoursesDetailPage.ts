@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 import { BASE_URL } from '../utils/utils';
+import { LOGIN_TEST_USERNAME, LOGIN_TEST_PASSWORD} from "../utils/courseDetailPageUtil"
 import { LoginPage } from './LoginPage';
 
 export class CoursesDetailPage {
@@ -40,8 +41,8 @@ export class CoursesDetailPage {
         const loginPage = new LoginPage(this.page);
         await loginPage.goto();
         await this.page.waitForLoadState('networkidle');
-        await loginPage.editLoginUsername("tai123");
-        await loginPage.editLoginPassword("P@ssword1");
+        await loginPage.editLoginUsername(LOGIN_TEST_USERNAME);
+        await loginPage.editLoginPassword(LOGIN_TEST_PASSWORD);
         await loginPage.clickLogin();
 
         await this.page.waitForURL(`${BASE_URL}/chitiet/**`);

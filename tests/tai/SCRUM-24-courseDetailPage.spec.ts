@@ -79,7 +79,6 @@ test.describe("Course Detail Right Page Feature", async() => {
 
     test('TC05: Feature check - Nhập mã và thực thi', async({page}) => {
         const credentials = await coursesDetailPage.loginForTest();
-        await coursesDetailPage.goToDetailPage(Number(SELECTED_COURSSE_ID));
 
         // kiểm tra nếu có credentials thì thực thi mã giảm giá
         if(credentials) {

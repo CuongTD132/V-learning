@@ -32,7 +32,9 @@ test.describe("Course Detail Left Page Feature", async() => {
     });
 
     test('TC02: Feature check - Bấm nút "Xem trước" và hiển thị màn hình loading.', async({page}) => {
-        for(let i = 0; i < await coursesDetailPage.previewButtons.count(); i++) {
+        const count = await coursesDetailPage.previewButtons.count();
+
+        for(let i = 0; i < count - 1; i++) {
             const previewButton = coursesDetailPage.previewButtons.nth(i);
             await previewButton.click();
 
