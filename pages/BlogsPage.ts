@@ -43,7 +43,7 @@ export class BlogsPage {
         return await parent.locator(`:scope > ${children}`).count();
     }
 
-    async getBlogCourseStructure(parent: Locator, childrenCount: number, ) {
+    async childrenVisibleCheck(parent: Locator, childrenCount: number, ) {
         const children = parent.locator(':scope > *');
 
         for(let i = 0; i < childrenCount - 1; i++) {
@@ -74,7 +74,5 @@ export class BlogsPage {
         const width = await locator.evaluate((img: HTMLImageElement) => img.naturalWidth);
         await expect(width).toBeGreaterThan(0);
     }
-
-
 
 }

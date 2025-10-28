@@ -1,5 +1,3 @@
-import { Locator } from "playwright";
-
 export type customType = blogItemChildrenTypes | suggestBlogItemChildrenTypes
 
 export interface headerLabelTypes {

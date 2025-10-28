@@ -14,12 +14,13 @@ test.describe("Related Courses Feature", async() => {
 
     test('TC01: GUI check - Hiển thị 2 section trên màn hình.', async() => {
         const childrenCount = await blogsPage.getChildrenCount(blogsPage.blogCourse, "*");
+        const matchCount = 2;
 
         // Chỉ mong đợi hiển thị đúng 2 section trên màn hình
-        if (childrenCount === 2)
-            blogsPage.getBlogCourseStructure(blogsPage.blogCourse, childrenCount);
+        if (childrenCount === matchCount)
+            blogsPage.childrenVisibleCheck(blogsPage.blogCourse, childrenCount);
         else
-            fail(`Blog Page hiển thị không đúng ${childrenCount} section`);
+            fail(`Blog Page hiển thị không đúng ${matchCount} section`);
     });
 
     test('TC02: GUI check - Label Header hiển thị "BLOG".', async() => {
@@ -32,41 +33,44 @@ test.describe("Related Courses Feature", async() => {
 
     test('TC04: GUI check - Hiển thị danh sách các bài Blog.', async() => {
         const childrenCount = await blogsPage.blogItemLeftPosts.count();
+        const matchCount = 8
 
         // mong đợi chỉ hiển thị 8 bài viết trong blog page
-        if (childrenCount === 8) {
+        if (childrenCount === matchCount) {
             for(let i = 0; i < childrenCount - 1; i++) {
                 await blogsPage.childrenItemVisible(blogsPage.blogItemLeftPosts.nth(i), blogItemChildrenSelectors);
             }
         } 
         else {
-            fail(`Hiển thị không đúng ${childrenCount} bài blog trên 1 trang`);
+            fail(`Hiển thị không đúng ${matchCount} bài blog trên 1 trang`);
         }
     });
 
     test('TC05: GUI check - Hiển thị các chủ đề được đề xuất.', async() => {
         const childrenCount = await blogsPage.blogItemRightSuggestedCategories.count();
+        const matchCount = 7;
 
         // mong đợi chỉ xuất hiện 7 chủ đề được đề xuất
-        if(childrenCount === 7) {
+        if(childrenCount === matchCount) {
             for(let i = 0; i < childrenCount - 1; i++)
                 expect(blogsPage.blogItemRightSuggestedCategories.nth(i)).toBeVisible();
         }
         else {
-            fail(`Hiển thị không đúng ${childrenCount} chủ đề được đề xuất`);
+            fail(`Hiển thị không đúng ${matchCount} chủ đề được đề xuất`);
         }
     });
 
     test('TC06: Feature check - Bấm vào tên các bài đăng được đề xuất.', async() => {
         const childrenCount = await blogsPage.blogItemRightPopularPosts.count();
+        const matchCount = 3;
 
         // mong đợi chỉ xuất hiện 3 bài viết được đề xuất
-        if(childrenCount === 3) {
+        if(childrenCount === matchCount) {
             for(let i = 0; i < childrenCount - 1; i++)
                 await blogsPage.childrenItemVisible(blogsPage.blogItemRightPopularPosts.nth(i), suggestBlogItemChildrenSelectors);
         }
         else {
-            fail(`Hiển thị không đúng ${childrenCount} bài viết được đề xuất`);
+            fail(`Hiển thị không đúng ${matchCount} bài viết được đề xuất`);
         }
     });
 });
