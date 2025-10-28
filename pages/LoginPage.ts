@@ -19,13 +19,14 @@ export class LoginPage {
     readonly errorMessagePassWord: Locator;
     readonly errorMessageEmail: Locator;
     readonly errorMessagePhone: Locator;
-    
+    readonly avatarLogin: Locator
     constructor(page: Page) {
         //Locator đăng nhập
+        this.avatarLogin = page.locator('.avatar')
         this.page = page;
         this.username = page.getByPlaceholder("Tài khoản").nth(1);
         this.password = page.getByPlaceholder("Mật khẩu").nth(1);
-        this.loginButton = page.getByText("Đăng nhập").nth(1);
+        this.loginButton = page.locator('form').getByRole('button', { name: 'Đăng nhập' })
         this.errorMessage = page.locator(".swal-title")
     
         // Locator đăng kí
@@ -79,6 +80,7 @@ export class LoginPage {
     }
     async clickLogin() {
         await this.loginButton.click();
+        
     }
     async getErrorMessage(): Promise<string  > {
         let errorMessage = await this.errorMessage.textContent();

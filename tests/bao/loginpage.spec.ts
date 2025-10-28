@@ -1,6 +1,7 @@
 import {test , expect } from "@playwright/test"
 import { LoginPage } from "../../pages/LoginPage"
 import { off } from "process";
+import { BASE_URL } from "../../utils/utils";
 
 test.describe("Login Tests" , () => {
     let loginPage: LoginPage;
@@ -12,6 +13,9 @@ test.describe("Login Tests" , () => {
         await loginPage.editLoginUsername("lybao2905")
         await loginPage.editLoginPassword("bao29052001@")
         await loginPage.clickLogin();
+        const avatar = await loginPage.avatarLogin.getAttribute("class")
+        console.log(avatar)
+        expect(avatar).toContain("avatar")
     })
     test("TC- 2 trống trường mật khẩu", async ({ page }) => {
         await loginPage.editLoginUsername("lybao2905")
