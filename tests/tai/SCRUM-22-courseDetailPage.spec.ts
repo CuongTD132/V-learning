@@ -1,11 +1,8 @@
-import { test, expect, Locator } from "@playwright/test"
+import { test, expect } from "@playwright/test"
 import { CoursesDetailPage } from "../../pages/CoursesDetailPage"
-import { SELECTED_COURSSE_ID,
-         PREVIEW_BUTTON_HOVER_BGCOLOR 
-} from '../../utils/courseDetailPageUtil'
+import { SELECTED_COURSSE_ID } from '../../utils/courseDetailPageUtil'
 import { fail } from "assert";
-import { AllCourseDetailData, CourseSelectors, LabelData, SideBarDetailContentData } from "./data/courseDetailData";
-import { title } from "process";
+import { CourseSelectors, LabelData, SideBarDetailContentData } from "./data/courseDetailData";
 import { specifyDataCheck } from "./type/courseDetailTypes";
 
 test.describe("Course Detail Left Page Feature", async() => {

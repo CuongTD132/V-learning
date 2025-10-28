@@ -1,4 +1,4 @@
-import { AllCourseDetailType, CourseDetailType, CourseSelectTypes, LabelTypes, LearningPathStructure, SideBarDetailContentTypes } from "../type/courseDetailTypes";
+import { AllCourseDetailType, CourseDetailType, CourseSelectTypes, LabelTypes, LearningPathStructure } from "../type/courseDetailTypes";
 
 export const LabelData: LabelTypes = {
     title: "Thông tin khóa học",

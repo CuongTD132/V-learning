@@ -41,11 +41,3 @@ export interface CourseSelectTypes {
     title: string,
     price: string
 }
-
-export interface SideBarDetailContentTypes {
-    enrolledLearner: string,
-    courseDuration: string,
-    totalLesson: string,
-    totalVideo: string,
-    level: string
-}
